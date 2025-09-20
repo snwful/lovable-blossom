@@ -115,16 +115,6 @@ function ProductCard({ product }: { product: Product }) {
           )}
         </div>
 
-        {/* Add to Cart Button */}
-        <Button
-          variant="default"
-          size="sm"
-          className="w-full"
-        >
-          <ShoppingCart className="w-4 h-4 mr-2" />
-          เพิ่มลงตะกร้า
-        </Button>
-
         {/* Free Shipping Badge */}
         <div className="flex items-center gap-2">
           <Badge variant="outline" className="text-xs text-success border-success/20">
@@ -136,6 +126,16 @@ function ProductCard({ product }: { product: Product }) {
             </span>
           )}
         </div>
+
+        {/* Add to Cart Button */}
+        <Button
+          variant="default"
+          size="sm"
+          className="w-full"
+        >
+          <ShoppingCart className="w-4 h-4 mr-2" />
+          เพิ่มลงตะกร้า
+        </Button>
       </div>
     </div>
   );
