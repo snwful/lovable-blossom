@@ -82,16 +82,6 @@ function ProductCard({ product }: { product: Product }) {
             <Heart className="w-4 h-4" />
           </Button>
 
-          {/* Quick Add to Cart */}
-          <div className="absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-            <Button
-              variant="default"
-              size="sm"
-              className="p-1 w-8 h-8 shadow-lg"
-            >
-              <ShoppingCart className="w-4 h-4" />
-            </Button>
-          </div>
         </div>
       </Link>
 
@@ -124,6 +114,16 @@ function ProductCard({ product }: { product: Product }) {
             </span>
           )}
         </div>
+
+        {/* Add to Cart Button */}
+        <Button
+          variant="default"
+          size="sm"
+          className="w-full"
+        >
+          <ShoppingCart className="w-4 h-4 mr-2" />
+          เพิ่มลงตะกร้า
+        </Button>
 
         {/* Free Shipping Badge */}
         <div className="flex items-center gap-2">
