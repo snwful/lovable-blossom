@@ -1,0 +1,20 @@
+{
+  "name": "@headless-storefront/store-api",
+  "version": "0.1.0",
+  "description": "WooCommerce Store API client for headless storefront",
+  "main": "src/index.ts",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch"
+  },
+  "dependencies": {
+    "@headless-storefront/config": "workspace:*"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "exports": {
+    ".": "./src/index.ts"
+  }
+}

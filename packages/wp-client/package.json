@@ -1,0 +1,22 @@
+{
+  "name": "@headless-storefront/wp-client",
+  "version": "0.1.0",
+  "description": "WordPress GraphQL client for headless storefront",
+  "main": "src/index.ts",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch"
+  },
+  "dependencies": {
+    "@headless-storefront/config": "workspace:*",
+    "graphql": "^16.8.1",
+    "graphql-request": "^6.1.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "exports": {
+    ".": "./src/index.ts"
+  }
+}
