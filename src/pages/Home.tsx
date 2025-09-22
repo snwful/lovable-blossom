@@ -9,59 +9,62 @@ import { ArrowRight, Zap } from "lucide-react";
 import { useWordPressProducts, useFlashSaleProducts, useFeaturedProducts } from "@/hooks/useWordPressProducts";
 
 // Mock data for fallback products
-const mockFeaturedProducts = [
-  {
-    id: "1",
-    name: "iPhone 15 Pro Max 256GB",
-    price: 44900,
-    originalPrice: 49900,
-    image: "https://images.unsplash.com/photo-1695048133142-1a20484d2569?w=400&h=400&fit=crop",
-    rating: 4.8,
-    reviewCount: 2341,
-    discount: 10,
-    badge: "ขายดี",
-  },
-  {
-    id: "2", 
-    name: "MacBook Air M3 13 นิ้ว",
-    price: 39900,
-    originalPrice: 42900,
-    image: "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=400&h=400&fit=crop",
-    rating: 4.9,
-    reviewCount: 1876,
-    discount: 7,
-  },
-  {
-    id: "3",
-    name: "Samsung Galaxy S24 Ultra",
-    price: 42900,
-    originalPrice: 45900,
-    image: "https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?w=400&h=400&fit=crop",
-    rating: 4.7,
-    reviewCount: 1543,
-    discount: 6,
-  },
-  {
-    id: "4",
-    name: "AirPods Pro (2nd generation)",
-    price: 8990,
-    originalPrice: 9990,
-    image: "https://images.unsplash.com/photo-1606220945770-b5b6c2c55bf1?w=400&h=400&fit=crop",
-    rating: 4.6,
-    reviewCount: 3421,
-    discount: 10,
-  },
-];
-
+const mockFeaturedProducts = [{
+  id: "1",
+  name: "iPhone 15 Pro Max 256GB",
+  price: 44900,
+  originalPrice: 49900,
+  image: "https://images.unsplash.com/photo-1695048133142-1a20484d2569?w=400&h=400&fit=crop",
+  rating: 4.8,
+  reviewCount: 2341,
+  discount: 10,
+  badge: "ขายดี"
+}, {
+  id: "2",
+  name: "MacBook Air M3 13 นิ้ว",
+  price: 39900,
+  originalPrice: 42900,
+  image: "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=400&h=400&fit=crop",
+  rating: 4.9,
+  reviewCount: 1876,
+  discount: 7
+}, {
+  id: "3",
+  name: "Samsung Galaxy S24 Ultra",
+  price: 42900,
+  originalPrice: 45900,
+  image: "https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?w=400&h=400&fit=crop",
+  rating: 4.7,
+  reviewCount: 1543,
+  discount: 6
+}, {
+  id: "4",
+  name: "AirPods Pro (2nd generation)",
+  price: 8990,
+  originalPrice: 9990,
+  image: "https://images.unsplash.com/photo-1606220945770-b5b6c2c55bf1?w=400&h=400&fit=crop",
+  rating: 4.6,
+  reviewCount: 3421,
+  discount: 10
+}];
 export default function Home() {
-  const { data: wpProducts, isLoading } = useWordPressProducts({ first: 8 });
-  const { data: flashSaleProducts, isLoading: flashSaleLoading } = useFlashSaleProducts();
-  const { data: featuredWPProducts, isLoading: featuredLoading } = useFeaturedProducts();
-
-  return (
-    <div className="min-h-screen bg-background">
+  const {
+    data: wpProducts,
+    isLoading
+  } = useWordPressProducts({
+    first: 8
+  });
+  const {
+    data: flashSaleProducts,
+    isLoading: flashSaleLoading
+  } = useFlashSaleProducts();
+  const {
+    data: featuredWPProducts,
+    isLoading: featuredLoading
+  } = useFeaturedProducts();
+  return <div className="min-h-screen bg-background">
       {/* Hero Carousel */}
-      <div className="mb-6">
+      <div className="mb-6 mx-[16px] px-0 py-[20px]">
         <HeroCarousel />
       </div>
 
@@ -86,17 +89,7 @@ export default function Home() {
             ดูทั้งหมด <ArrowRight className="w-4 h-4 ml-1" />
           </Button>
         </div>
-        {flashSaleLoading ? (
-          <WordPressProductGrid loading={true} />
-        ) : flashSaleProducts?.products?.nodes && flashSaleProducts.products.nodes.length > 0 ? (
-          <WordPressProductGrid 
-            products={flashSaleProducts.products.nodes} 
-            showBadges={true}
-            showRating={true}
-          />
-        ) : (
-          <ProductGrid products={mockFeaturedProducts} />
-        )}
+        {flashSaleLoading ? <WordPressProductGrid loading={true} /> : flashSaleProducts?.products?.nodes && flashSaleProducts.products.nodes.length > 0 ? <WordPressProductGrid products={flashSaleProducts.products.nodes} showBadges={true} showRating={true} /> : <ProductGrid products={mockFeaturedProducts} />}
       </div>
 
       {/* WordPress Products - Latest */}
@@ -108,16 +101,7 @@ export default function Home() {
           </Button>
         </div>
         
-        {isLoading ? (
-          <WordPressProductGrid loading={true} />
-        ) : wpProducts?.products?.nodes && wpProducts.products.nodes.length > 0 ? (
-          <WordPressProductGrid 
-            products={wpProducts.products.nodes} 
-            showBadges={true}
-            showRating={true}
-          />
-        ) : (
-          <div className="bg-card rounded-xl p-6 text-center">
+        {isLoading ? <WordPressProductGrid loading={true} /> : wpProducts?.products?.nodes && wpProducts.products.nodes.length > 0 ? <WordPressProductGrid products={wpProducts.products.nodes} showBadges={true} showRating={true} /> : <div className="bg-card rounded-xl p-6 text-center">
             <p className="text-muted-foreground mb-2">
               ไม่สามารถเชื่อมต่อกับ WordPress ได้
             </p>
@@ -127,8 +111,7 @@ export default function Home() {
             <div className="mt-4 text-xs text-muted-foreground bg-muted p-3 rounded-lg">
               <strong>Endpoint:</strong> https://www.maethuan.com/graphql
             </div>
-          </div>
-        )}
+          </div>}
       </div>
 
       {/* Featured Products from WordPress */}
@@ -140,24 +123,14 @@ export default function Home() {
           </Button>
         </div>
         
-        {featuredLoading ? (
-          <WordPressProductGrid loading={true} />
-        ) : featuredWPProducts?.products?.nodes && featuredWPProducts.products.nodes.length > 0 ? (
-          <WordPressProductGrid 
-            products={featuredWPProducts.products.nodes} 
-            showBadges={true}
-            showRating={true}
-          />
-        ) : (
-          <div className="bg-card rounded-xl p-6 text-center">
+        {featuredLoading ? <WordPressProductGrid loading={true} /> : featuredWPProducts?.products?.nodes && featuredWPProducts.products.nodes.length > 0 ? <WordPressProductGrid products={featuredWPProducts.products.nodes} showBadges={true} showRating={true} /> : <div className="bg-card rounded-xl p-6 text-center">
             <p className="text-muted-foreground mb-2">
               ไม่พบสินค้าแนะนำ
             </p>
             <p className="text-sm text-muted-foreground">
               ลองใหม่อีกครั้งหรือตรวจสอบการเชื่อมต่อ
             </p>
-          </div>
-        )}
+          </div>}
       </div>
 
       {/* Mock Products as Fallback */}
@@ -173,6 +146,5 @@ export default function Home() {
 
       {/* Spacer for bottom navigation */}
       <div className="h-20" />
-    </div>
-  );
+    </div>;
 }
