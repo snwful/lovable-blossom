@@ -12,36 +12,28 @@ const mockProduct = {
   name: "iPhone 15 Pro Max 256GB สีน้ำเงิน",
   price: 45900,
   originalPrice: 48900,
-  images: [
-    "https://images.unsplash.com/photo-1510557880182-3d4d3cba35a5?w=600&h=600&fit=crop",
-    "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=600&h=600&fit=crop",
-    "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=600&h=600&fit=crop",
-  ],
+  images: ["https://images.unsplash.com/photo-1510557880182-3d4d3cba35a5?w=600&h=600&fit=crop", "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=600&h=600&fit=crop", "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=600&h=600&fit=crop"],
   rating: 4.8,
   reviewCount: 1250,
   discount: 6,
   description: "iPhone 15 Pro Max รุ่นล่าสุดพร้อมชิป A17 Pro ที่ทรงพลัง กล้อง 48MP ที่ปรับปรุงใหม่ และดีไซน์ไทเทเนียมที่หรูหรา",
-  features: [
-    "ชิป A17 Pro ที่ทรงพลังสุด",
-    "กล้องหลัง 48MP พร้อมระบบ Pro camera",
-    "หน้าจอ 6.7 นิ้ว Super Retina XDR",
-    "วัสดุไทเทเนียมระดับการบินอวกาศ",
-    "ระบบ Action Button ที่ปรับแต่งได้"
-  ],
+  features: ["ชิป A17 Pro ที่ทรงพลังสุด", "กล้องหลัง 48MP พร้อมระบบ Pro camera", "หน้าจอ 6.7 นิ้ว Super Retina XDR", "วัสดุไทเทเนียมระดับการบินอวกาศ", "ระบบ Action Button ที่ปรับแต่งได้"],
   variants: {
     storage: ["128GB", "256GB", "512GB", "1TB"],
     color: ["สีน้ำเงิน", "สีดำ", "สีเงิน", "สีทอง"]
   }
 };
-
 export default function ProductDetail() {
-  const { slug } = useParams();
+  const {
+    slug
+  } = useParams();
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [selectedStorage, setSelectedStorage] = useState("256GB");
   const [selectedColor, setSelectedColor] = useState("สีน้ำเงิน");
   const [quantity, setQuantity] = useState(1);
-  const { addItem } = useCartStore();
-
+  const {
+    addItem
+  } = useCartStore();
   const handleAddToCart = () => {
     addItem({
       id: `${mockProduct.id}-${selectedStorage}-${selectedColor}`,
@@ -60,9 +52,7 @@ export default function ProductDetail() {
       }
     });
   };
-
-  return (
-    <div className="min-h-screen bg-background">
+  return <div className="min-h-screen bg-background">
       {/* Header */}
       <header className="sticky top-0 z-40 bg-background/95 backdrop-blur-sm border-b border-border">
         <div className="flex items-center gap-3 px-4 py-3">
@@ -85,30 +75,14 @@ export default function ProductDetail() {
         {/* Image Gallery */}
         <section className="relative">
           <div className="aspect-square overflow-hidden bg-white">
-            <img
-              src={mockProduct.images[currentImageIndex]}
-              alt={mockProduct.name}
-              className="w-full h-full object-cover"
-            />
+            <img src={mockProduct.images[currentImageIndex]} alt={mockProduct.name} className="w-full h-full object-cover" />
           </div>
           
           {/* Image Thumbnails */}
           <div className="flex gap-2 p-4 overflow-x-auto">
-            {mockProduct.images.map((image, index) => (
-              <button
-                key={index}
-                onClick={() => setCurrentImageIndex(index)}
-                className={`w-16 h-16 flex-shrink-0 rounded-lg overflow-hidden border-2 ${
-                  currentImageIndex === index ? "border-primary" : "border-transparent"
-                }`}
-              >
-                <img
-                  src={image}
-                  alt=""
-                  className="w-full h-full object-cover"
-                />
-              </button>
-            ))}
+            {mockProduct.images.map((image, index) => <button key={index} onClick={() => setCurrentImageIndex(index)} className={`w-16 h-16 flex-shrink-0 rounded-lg overflow-hidden border-2 ${currentImageIndex === index ? "border-primary" : "border-transparent"}`}>
+                <img src={image} alt="" className="w-full h-full object-cover" />
+              </button>)}
           </div>
         </section>
 
@@ -158,19 +132,9 @@ export default function ProductDetail() {
               <div>
                 <h3 className="font-medium mb-3">ความจุ</h3>
                 <div className="grid grid-cols-4 gap-2">
-                  {mockProduct.variants.storage.map((storage) => (
-                    <button
-                      key={storage}
-                      onClick={() => setSelectedStorage(storage)}
-                      className={`p-3 rounded-lg border-2 text-sm font-medium transition-all ${
-                        selectedStorage === storage
-                          ? "border-primary bg-primary/5 text-primary"
-                          : "border-border hover:border-primary/30"
-                      }`}
-                    >
+                  {mockProduct.variants.storage.map(storage => <button key={storage} onClick={() => setSelectedStorage(storage)} className={`p-3 rounded-lg border-2 text-sm font-medium transition-all ${selectedStorage === storage ? "border-primary bg-primary/5 text-primary" : "border-border hover:border-primary/30"}`}>
                       {storage}
-                    </button>
-                  ))}
+                    </button>)}
                 </div>
               </div>
 
@@ -178,19 +142,9 @@ export default function ProductDetail() {
               <div>
                 <h3 className="font-medium mb-3">สี</h3>
                 <div className="grid grid-cols-2 gap-2">
-                  {mockProduct.variants.color.map((color) => (
-                    <button
-                      key={color}
-                      onClick={() => setSelectedColor(color)}
-                      className={`p-3 rounded-lg border-2 text-sm font-medium transition-all ${
-                        selectedColor === color
-                          ? "border-primary bg-primary/5 text-primary"
-                          : "border-border hover:border-primary/30"
-                      }`}
-                    >
+                  {mockProduct.variants.color.map(color => <button key={color} onClick={() => setSelectedColor(color)} className={`p-3 rounded-lg border-2 text-sm font-medium transition-all ${selectedColor === color ? "border-primary bg-primary/5 text-primary" : "border-border hover:border-primary/30"}`}>
                       {color}
-                    </button>
-                  ))}
+                    </button>)}
                 </div>
               </div>
             </CardContent>
@@ -204,12 +158,10 @@ export default function ProductDetail() {
                 {mockProduct.description}
               </p>
               <ul className="space-y-2">
-                {mockProduct.features.map((feature, index) => (
-                  <li key={index} className="flex items-center gap-2">
+                {mockProduct.features.map((feature, index) => <li key={index} className="flex items-center gap-2">
                     <div className="w-1.5 h-1.5 bg-primary rounded-full flex-shrink-0" />
                     <span className="text-sm">{feature}</span>
-                  </li>
-                ))}
+                  </li>)}
               </ul>
             </CardContent>
           </Card>
@@ -217,41 +169,27 @@ export default function ProductDetail() {
       </div>
 
       {/* Bottom Actions */}
-      <div className="fixed bottom-tab-bar left-0 right-0 bg-background border-t border-border p-4 z-40">
+      <div className="fixed bottom-tab-bar left-0 right-0 bg-background border-t border-border p-4 z-40 px-0 py-0">
         <div className="flex items-center gap-3">
           {/* Quantity Selector */}
           <div className="flex items-center gap-2 bg-muted/50 rounded-lg p-1">
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => setQuantity(Math.max(1, quantity - 1))}
-              className="h-8 w-8 p-0"
-            >
+            <Button variant="ghost" size="sm" onClick={() => setQuantity(Math.max(1, quantity - 1))} className="h-8 w-8 p-0">
               <Minus className="w-3 h-3" />
             </Button>
             <span className="font-medium min-w-[2rem] text-center">
               {quantity}
             </span>
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => setQuantity(quantity + 1)}
-              className="h-8 w-8 p-0"
-            >
+            <Button variant="ghost" size="sm" onClick={() => setQuantity(quantity + 1)} className="h-8 w-8 p-0">
               <Plus className="w-3 h-3" />
             </Button>
           </div>
 
           {/* Add to Cart */}
-          <Button 
-            onClick={handleAddToCart}
-            className="flex-1 h-12 text-base font-semibold"
-          >
+          <Button onClick={handleAddToCart} className="flex-1 h-12 text-base font-semibold">
             <ShoppingCart className="w-5 h-5 mr-2" />
             เพิ่มลงตะกร้า
           </Button>
         </div>
       </div>
-    </div>
-  );
+    </div>;
 }
