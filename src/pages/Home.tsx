@@ -6,10 +6,10 @@ import { HeroCarousel } from "@/components/home/HeroCarousel";
 import { CategoryQuickNav } from "@/components/home/CategoryQuickNav";
 import { FlashSaleStrip } from "@/components/home/FlashSaleStrip";
 import { ArrowRight, Zap } from "lucide-react";
-import { useProducts } from "@/hooks/useProducts";
+import { useWordPressProducts, useFlashSaleProducts, useFeaturedProducts } from "@/hooks/useWordPressProducts";
 
-// Mock data for featured products
-const featuredProducts = [
+// Mock data for fallback products
+const mockFeaturedProducts = [
   {
     id: "1",
     name: "iPhone 15 Pro Max 256GB",
@@ -54,7 +54,9 @@ const featuredProducts = [
 ];
 
 export default function Home() {
-  const { data: wpProducts, isLoading } = useProducts({ first: 8 });
+  const { data: wpProducts, isLoading } = useWordPressProducts({ first: 8 });
+  const { data: flashSaleProducts, isLoading: flashSaleLoading } = useFlashSaleProducts();
+  const { data: featuredWPProducts, isLoading: featuredLoading } = useFeaturedProducts();
 
   return (
     <div className="min-h-screen bg-background">
@@ -84,13 +86,23 @@ export default function Home() {
             ดูทั้งหมด <ArrowRight className="w-4 h-4 ml-1" />
           </Button>
         </div>
-        <ProductGrid products={featuredProducts} />
+        {flashSaleLoading ? (
+          <WordPressProductGrid loading={true} />
+        ) : flashSaleProducts?.products?.nodes && flashSaleProducts.products.nodes.length > 0 ? (
+          <WordPressProductGrid 
+            products={flashSaleProducts.products.nodes} 
+            showBadges={true}
+            showRating={true}
+          />
+        ) : (
+          <ProductGrid products={mockFeaturedProducts} />
+        )}
       </div>
 
-      {/* WordPress Products */}
+      {/* WordPress Products - Latest */}
       <div className="px-4 mb-8">
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-lg font-bold">สินค้าจาก WordPress</h2>
+          <h2 className="text-lg font-bold">สินค้าใหม่จาก WordPress</h2>
           <Button variant="ghost" size="sm" className="text-primary">
             ดูทั้งหมด <ArrowRight className="w-4 h-4 ml-1" />
           </Button>
@@ -98,8 +110,12 @@ export default function Home() {
         
         {isLoading ? (
           <WordPressProductGrid loading={true} />
-        ) : wpProducts?.nodes ? (
-          <WordPressProductGrid products={wpProducts.nodes} />
+        ) : wpProducts?.products?.nodes && wpProducts.products.nodes.length > 0 ? (
+          <WordPressProductGrid 
+            products={wpProducts.products.nodes} 
+            showBadges={true}
+            showRating={true}
+          />
         ) : (
           <div className="bg-card rounded-xl p-6 text-center">
             <p className="text-muted-foreground mb-2">
@@ -115,15 +131,44 @@ export default function Home() {
         )}
       </div>
 
-      {/* Featured Products (Mock Data) */}
+      {/* Featured Products from WordPress */}
       <div className="px-4 mb-8">
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-lg font-bold">สินค้ายอดนิยม</h2>
+          <h2 className="text-lg font-bold">สินค้าแนะนำ</h2>
           <Button variant="ghost" size="sm" className="text-primary">
             ดูทั้งหมด <ArrowRight className="w-4 h-4 ml-1" />
           </Button>
         </div>
-        <ProductGrid products={featuredProducts} />
+        
+        {featuredLoading ? (
+          <WordPressProductGrid loading={true} />
+        ) : featuredWPProducts?.products?.nodes && featuredWPProducts.products.nodes.length > 0 ? (
+          <WordPressProductGrid 
+            products={featuredWPProducts.products.nodes} 
+            showBadges={true}
+            showRating={true}
+          />
+        ) : (
+          <div className="bg-card rounded-xl p-6 text-center">
+            <p className="text-muted-foreground mb-2">
+              ไม่พบสินค้าแนะนำ
+            </p>
+            <p className="text-sm text-muted-foreground">
+              ลองใหม่อีกครั้งหรือตรวจสอบการเชื่อมต่อ
+            </p>
+          </div>
+        )}
+      </div>
+
+      {/* Mock Products as Fallback */}
+      <div className="px-4 mb-8">
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="text-lg font-bold">สินค้ายอดนิยม (ตัวอย่าง)</h2>
+          <Button variant="ghost" size="sm" className="text-primary">
+            ดูทั้งหมด <ArrowRight className="w-4 h-4 ml-1" />
+          </Button>
+        </div>
+        <ProductGrid products={mockFeaturedProducts} />
       </div>
 
       {/* Spacer for bottom navigation */}

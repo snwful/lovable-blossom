@@ -30,7 +30,7 @@ const wpGraphQLClient = {
   }
 };
 
-// Product queries
+// Product queries with proper inline fragments
 const GET_PRODUCTS = `
   query GetProducts($first: Int = 12, $after: String) {
     products(first: $first, after: $after, where: { status: "publish" }) {
@@ -40,10 +40,7 @@ const GET_PRODUCTS = `
         name
         shortDescription
         description
-        regularPrice
-        salePrice
         onSale
-        stockStatus
         image {
           sourceUrl
           altText
@@ -62,18 +59,45 @@ const GET_PRODUCTS = `
         }
         ... on SimpleProduct {
           price
+          regularPrice
+          salePrice
+          stockStatus
+          stockQuantity
         }
         ... on VariableProduct {
           price
+          regularPrice
+          salePrice
+          stockStatus
+          stockQuantity
           variations {
             nodes {
               databaseId
               name
               price
+              regularPrice
               salePrice
               stockStatus
+              stockQuantity
+              attributes {
+                nodes {
+                  name
+                  value
+                }
+              }
             }
           }
+        }
+        ... on ExternalProduct {
+          price
+          regularPrice
+          salePrice
+          externalUrl
+          buttonText
+        }
+        ... on GroupProduct {
+          addToCartText
+          addToCartDescription
         }
       }
       pageInfo {
@@ -94,10 +118,11 @@ const GET_PRODUCT_BY_SLUG = `
       name
       shortDescription
       description
-      regularPrice
-      salePrice
       onSale
-      stockStatus
+      featured
+      reviewCount
+      averageRating
+      totalSales
       image {
         sourceUrl
         altText
@@ -110,22 +135,50 @@ const GET_PRODUCT_BY_SLUG = `
       }
       productCategories {
         nodes {
+          databaseId
+          name
+          slug
+          image {
+            sourceUrl
+            altText
+          }
+        }
+      }
+      productTags {
+        nodes {
           name
           slug
         }
       }
       ... on SimpleProduct {
         price
+        regularPrice
+        salePrice
+        stockStatus
+        stockQuantity
+        weight
+        dimensions {
+          length
+          width
+          height
+        }
       }
       ... on VariableProduct {
         price
+        regularPrice
+        salePrice
+        stockStatus
+        stockQuantity
         variations {
           nodes {
             databaseId
             name
             price
+            regularPrice
             salePrice
             stockStatus
+            stockQuantity
+            weight
             attributes {
               nodes {
                 name
@@ -134,6 +187,17 @@ const GET_PRODUCT_BY_SLUG = `
             }
           }
         }
+      }
+      ... on ExternalProduct {
+        price
+        regularPrice
+        salePrice
+        externalUrl
+        buttonText
+      }
+      ... on GroupProduct {
+        addToCartText
+        addToCartDescription
       }
     }
   }
@@ -185,3 +249,6 @@ export const useFlashSaleProducts = () => {
     staleTime: 2 * 60 * 1000, // 2 minutes for flash sale
   });
 };
+
+// Export queries for use in other files
+export { GET_PRODUCTS, GET_PRODUCT_BY_SLUG };
